@@ -51,7 +51,7 @@ pipeline {
                 }
                 echo "Running app on Prod env"
                 sh '''
-                docker stop tomcatInstanceProd || true
+                docker stop tomcatInstanceProde
                 docker rm tomcatInstanceProd || true
                 docker run -itd --name tomcatInstanceProd -p 8083:8080 localtomcatimg:$BUILD_NUMBER
                 '''
