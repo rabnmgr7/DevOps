@@ -6,6 +6,12 @@ pipeline{
             echo "We are in the build stage"
             sh 'mvn -f jenkins/java-tomcat-sample/pom.xml clean package'
             echo "Building completed."
+                        }
+            post {
+                success {
+                    echo "Now Archiving the Artifacts...."
+                    archiveArtifacts artifacts: '**/*.war'
+            }
             }
         }
     stage('Deploy QA instance'){
