@@ -1,19 +1,21 @@
 pipeline{
     agent any
   stages{
-    stage('Initialization'){
-        steps{
-            echo "We are in the initialization stage"
-            }
-        }
     stage('Build'){
         steps{
             echo "We are in the build stage"
+            sh 'mvn -f jenkins/java-tomcat-sample/pom.xml clean package'
+            echo "Building completed."
             }
         }
-    stage('Deploy'){
+    stage('Deploy QA instance'){
         steps{
-            echo "We are in the Deploy stage"
+            echo "We are in the deploy stage"
+            }
+        }
+    stage('Deploy Production instance'){
+        steps{
+            echo "We are in the Production stage"
             }
         }
     }
