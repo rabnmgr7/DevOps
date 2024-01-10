@@ -32,8 +32,14 @@ pipeline{
             }
         }
     stage('Deploy QA instance'){
+        agent {
+            label 'slave-node-javaapp'
+        }
         steps{
-            echo "We are in the deploy stage"
+            echo "We are in the deploy to QA instance"
+                sh '''
+                docker run -itd --name tomcatInstanceStaging -p 8082:8080 localtomcatimg:$BUILD_NUMBER
+                sh '''
             }
         }
     stage('Deploy Production instance'){
