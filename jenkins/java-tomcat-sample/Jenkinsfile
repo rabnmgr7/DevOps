@@ -38,15 +38,26 @@ pipeline{
         steps{
             echo "We are in the deploy to QA instance"
                 sh '''
-                docker stop tomcatInstanceStaging || true
-                docker rm tomcatInstanceStaging || true
-                docker run -itd --name tomcatInstanceStaging -p 8082:8080 localtomcatimg:$BUILD_NUMBER
+                docker stop tomcatInstanceQA || true
+                docker rm tomcatInstanceQA || true
+                docker run -itd --name tomcatInstanceQA -p 8082:8080 localtomcatimg:$BUILD_NUMBER
                 sh '''
             }
         }
-    stage('Deploy Production instance'){
+    stage('Deploy UAT instance'){
+        agent {
+            label 'slave-node-javaapp'
+        }
         steps{
-            echo "We are in the Production stage"
+                timeout(time:1, unit:'DAYS'){
+                input message:'Approve UAT Deployment?'
+                }
+                echo "Running app on UAT env"
+                sh '''
+                docker stop tomcatInstanceUAT || true
+                docker rm tomcatInstanceUAT || true
+                docker run -itd --name tomcatInstanceUAT -p 8083:8080 localtomcatimg:$BUILD_NUMBER
+                '''
             }
         }
     }
