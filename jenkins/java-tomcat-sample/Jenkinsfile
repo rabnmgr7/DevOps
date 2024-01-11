@@ -38,8 +38,6 @@ pipeline{
         steps{
             echo "We are in the deploy to QA instance"
                 sh '''
-                docker stop tomcatInstanceQA || true
-                docker rm tomcatInstanceQA || true
                 docker run -itd --name tomcatInstanceQA -p 8082:8080 localtomcatimg:$BUILD_NUMBER
                 sh '''
             }
