@@ -38,6 +38,8 @@ pipeline{
         steps{
             echo "We are in the deploy to QA instance"
                 sh '''
+                docker stop tomcatInstanceQA || true
+                docker rm tomcatInstanceQA || true
                 docker run -itd --name tomcatInstanceQA -p 8082:8080 localtomcatimg:$BUILD_NUMBER
                 sh '''
             }
@@ -62,7 +64,7 @@ pipeline{
     post { 
         always { 
             mail to: 'devopsuryaraj@gmail.com',
-            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) completed",
             body: "Please go to ${BUILD_URL} and verify the build"
         }
         success {
