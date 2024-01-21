@@ -36,6 +36,9 @@ pipeline {
 	}
     stage('Deploy in Stagging instance'){
       steps {
+        timeout(time:5, unit:'MINUTES'){
+            input message: 'Approve the stagging deployment'
+        }
 	echo "We are deploying the app in stagging env"
     sh '''
     docker container stop tomcatstaginginstance || true
