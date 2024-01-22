@@ -59,4 +59,9 @@ pipeline {
 	}
 	}
    }
+ post { 
+        always { 
+            echo 'Build completed, we are in post build!'
+        }
+    }
 }
