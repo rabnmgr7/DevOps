@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  	agent {
+                label 'ubuntu-slave-node'
+            }
   stages {
     stage('BuildApplication') {
       steps {
@@ -13,6 +15,9 @@ pipeline {
       }
      }
     stage('CreateTomcatImage') {
+	agent {
+                label 'ubuntu-slave-node'
+            }
       steps {
 	    copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: lastSuccessful()
         echo "Bulding docker image"
@@ -25,6 +30,9 @@ pipeline {
 	}
 	}
     stage('Deploy in QA instance'){
+	    	agent {
+                label 'ubuntu-slave-node'
+            }
       steps {
 	echo "We are deploying the app"
     sh '''
@@ -35,6 +43,9 @@ pipeline {
 	}
 	}
     stage('Deploy in Stagging instance'){
+	    	agent {
+                label 'ubuntu-slave-node'
+            }
       steps {
         timeout(time:5, unit:'MINUTES'){
             input message: 'Approve the stagging deployment'
