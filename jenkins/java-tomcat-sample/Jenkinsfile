@@ -61,7 +61,9 @@ pipeline {
    }
  post { 
         always { 
-            echo 'Build completed, we are in post build!'
+            mail to: 'devopsuryaraj@gmail.com',
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) completed running",
+            body: "Please go to ${BUILD_URL} and verify the build"
         }
     }
 }
